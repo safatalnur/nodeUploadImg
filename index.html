@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File and Image Upload Form</title>
+</head>
+<body>
+    <form action="/uploadFile" enctype="multipart/form-data" method="POST">
+        <input type="file" name="myFile">
+        <input type="submit" value="Upload your File">
+    </form>
+
+    <br><br>
+
+    <form action="/uploadMultiple" enctype="multipart/form-data" method="POST">
+        <input type="file" name="myFiles" multiple>
+        <input type="submit" value="Upload your Files">
+    </form>
+
+    <br><br>
+
+    <form action="/uploadphoto" enctype="multipart/form-data" method="POST">
+        <input type="file" name="myImage" accept="image/*">
+        <input type="submit" value="Upload Photo">
+    </form>
+</body>
+</html>
