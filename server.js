@@ -4,6 +4,8 @@ const multer = require('multer')
 
 const path = require('path')
 
+const fs = require('fs')
+
 const mongodb = require('mongodb')
 
 const app = express()
@@ -72,6 +74,36 @@ app.post("/uploadMultiple", upload.array('myFiles', 12),(req,res,next)=> {
         return next(error)
     }
     res.send(files)
+})
+
+//Configure the image upload 
+
+app.post("/uploadphoto", upload.single('myImage'),(req,res)=> {
+    const img = fs.readFileSync(req.file.path)
+
+    var encode_image = img.toString('base64')
+
+    //define a JSON object for the image
+
+    var finalImg = {
+        contentType: req.file.mimetype,
+        path: req.file.path,
+        image: new Buffer(encode_image, 'base64')
+    }
+
+    //insert the image to the database
+    db.collection('image').insertOne(finalImg,(err,result)=> {
+        console.log(result)
+
+        if(err) return console.log(err)
+
+        console.log("Saved to database")
+
+        res.contentType(finalImg.contentType)
+
+        res.send(finalImg.image)
+    })
+
 })
 
 app.listen(5000, () => {
